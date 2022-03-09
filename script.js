@@ -70,7 +70,7 @@ removeElement(diceimg); // remove dice  : use function
 
 btnRoll.addEventListener("click", function () {
   const diceRandom = Math.trunc(Math.random() * 6) + 1;
-  console.log(diceRandom);
+  
   diceimg.src = `./img/dice-${diceRandom}.png`;
   if (
     Number(scorePlayer1.textContent) >= scoreWin ||
