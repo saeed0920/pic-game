@@ -50,7 +50,7 @@ const currentPlayer2 = document.getElementById("current--1");
 const sectionPlayer1 = document.querySelector(".player--0");
 const sectionPlayer2 = document.querySelector(".player--1");
 
-const scoreWin = 10;
+const scoreWin = 50;
 
 // creted varible for function
 let scoreCurrent = 0;
