@@ -24,8 +24,10 @@ const installFun = function () {
 };
 
 document.addEventListener("keydown", function (x) {
-  if (x.key === "Enter") {
-    installFun();
+  if (x.key === "Enter" || x.key === "Escape") {
+    x.key === "Enter"
+      ? installFun()
+      : document.querySelector(".install").classList.add("hidden");
   }
 });
 document.querySelector(".install-btn").addEventListener("click", installFun);
@@ -48,8 +50,11 @@ const currentPlayer2 = document.getElementById("current--1");
 const sectionPlayer1 = document.querySelector(".player--0");
 const sectionPlayer2 = document.querySelector(".player--1");
 
+const scoreWin = 10;
+
 // creted varible for function
 let scoreCurrent = 0;
+
 // created function for clean code
 const removeElement = function (nameElement) {
   nameElement.classList.add("hidden");
@@ -66,11 +71,15 @@ removeElement(diceimg); // remove dice  : use function
 btnRoll.addEventListener("click", function () {
   const diceRandom = Math.trunc(Math.random() * 6) + 1;
   console.log(diceRandom);
+  diceimg.src = `./img/dice-${diceRandom}.png`;
   if (
-    Number(scorePlayer1.textContent) >= 10 ||
-    Number(scorePlayer2.textContent) >= 10
+    Number(scorePlayer1.textContent) >= scoreWin ||
+    Number(scorePlayer2.textContent) >= scoreWin
   ) {
+    removeElement(diceimg);
   } else {
+    diceimg.classList.remove("hidden");
+
     if (diceRandom !== 1) {
       scoreCurrent += diceRandom;
       if (sectionPlayer1.classList.contains("player--active")) {
@@ -78,7 +87,7 @@ btnRoll.addEventListener("click", function () {
       } else if (sectionPlayer2.classList.contains("player--active")) {
         currentPlayer2.textContent = scoreCurrent;
       }
-    } else if (diceRandom === 1) {
+    } else {
       if (sectionPlayer1.classList.contains("player--active")) {
         sectionPlayer1.classList.remove("player--active");
         sectionPlayer2.classList.add("player--active");
@@ -94,40 +103,41 @@ btnRoll.addEventListener("click", function () {
   }
 });
 
-// const whoWin = function () {
-//   if (Number(scorePlayer1.textContent) >= 10) {
-//     sectionPlayer1.classList.add("player--winner");
-//   }if else ()
-// };
-
 //* if btn hold click :
 btnHold.addEventListener("click", function () {
   if (
-    Number(scorePlayer1.textContent) >= 10 ||
-    Number(scorePlayer2.textContent) >= 10
+    Number(scorePlayer1.textContent) >= scoreWin ||
+    Number(scorePlayer2.textContent) >= scoreWin
   ) {
+    removeElement(diceimg);
   } else {
     if (sectionPlayer1.classList.contains("player--active")) {
       scorePlayer1.textContent =
         Number(scorePlayer1.textContent) + Number(currentPlayer1.textContent);
 
       currentPlayer1.textContent = 0;
-      if (Number(scorePlayer1.textContent) >= 10) {
+      if (Number(scorePlayer1.textContent) >= scoreWin) {
         sectionPlayer1.classList.add("player--winner");
+        removeElement(diceimg);
+      } else {
+        sectionPlayer1.classList.toggle("player--active");
+        // sectionPlayer1.classList.remove("player--active");
+        sectionPlayer2.classList.toggle("player--active");
+        // sectionPlayer2.classList.add("player--active");
+        scoreCurrent = 0;
       }
-      sectionPlayer1.classList.remove("player--active");
-      sectionPlayer2.classList.add("player--active");
-      scoreCurrent = 0;
     } else if (sectionPlayer2.classList.contains("player--active")) {
       scorePlayer2.textContent =
         Number(scorePlayer2.textContent) + Number(currentPlayer2.textContent);
       currentPlayer2.textContent = 0;
-      if (Number(scorePlayer2.textContent) >= 10) {
+      if (Number(scorePlayer2.textContent) >= scoreWin) {
         sectionPlayer2.classList.add("player--winner");
+        removeElement(diceimg);
+      } else {
+        sectionPlayer2.classList.remove("player--active");
+        sectionPlayer1.classList.add("player--active");
+        scoreCurrent = 0;
       }
-      sectionPlayer2.classList.remove("player--active");
-      sectionPlayer1.classList.add("player--active");
-      scoreCurrent = 0;
     }
   }
 });
@@ -143,4 +153,5 @@ btnNew.addEventListener("click", function () {
   sectionPlayer2.classList.remove("player--winner");
   sectionPlayer1.classList.add("player--active");
   sectionPlayer2.classList.remove("player--active");
+  removeElement(diceimg);
 });
