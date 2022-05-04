@@ -60,6 +60,14 @@ const removeElement = function (nameElement) {
   nameElement.classList.add("hidden");
 };
 
+const removeClass = function (nameElement, nameClass) {
+  nameElement.classList.remove(nameClass);
+};
+
+const addClass = function (nameElement, nameClass) {
+  nameElement.classList.add(nameClass);
+};
+
 // set utilities
 scorePlayer1.textContent = "0";
 scorePlayer2.textContent = "0";
@@ -70,7 +78,7 @@ removeElement(diceimg); // remove dice  : use function
 
 btnRoll.addEventListener("click", function () {
   const diceRandom = Math.trunc(Math.random() * 6) + 1;
-  
+
   diceimg.src = `./img/dice-${diceRandom}.png`;
   if (
     Number(scorePlayer1.textContent) >= scoreWin ||
@@ -78,7 +86,8 @@ btnRoll.addEventListener("click", function () {
   ) {
     removeElement(diceimg);
   } else {
-    diceimg.classList.remove("hidden");
+    // diceimg.classList.remove("hidden");
+    removeClass(diceimg, "hidden");
 
     if (diceRandom !== 1) {
       scoreCurrent += diceRandom;
@@ -89,13 +98,17 @@ btnRoll.addEventListener("click", function () {
       }
     } else {
       if (sectionPlayer1.classList.contains("player--active")) {
-        sectionPlayer1.classList.remove("player--active");
-        sectionPlayer2.classList.add("player--active");
+        // sectionPlayer1.classList.remove("player--active");
+        removeClass(sectionPlayer1, "player--active");
+        // sectionPlayer2.classList.add("player--active");
+        addClass(sectionPlayer2, "player--active");
         currentPlayer1.textContent = 0;
         scoreCurrent = 0;
       } else if (sectionPlayer2.classList.contains("player--active")) {
-        sectionPlayer2.classList.remove("player--active");
-        sectionPlayer1.classList.add("player--active");
+        // sectionPlayer2.classList.remove("player--active");
+        removeClass(sectionPlayer2, "player--active");
+        // sectionPlayer1.classList.add("player--active");
+        addClass(sectionPlayer1, "player--active");
         currentPlayer2.textContent = 0;
         scoreCurrent = 0;
       }
@@ -118,6 +131,7 @@ btnHold.addEventListener("click", function () {
       currentPlayer1.textContent = 0;
       if (Number(scorePlayer1.textContent) >= scoreWin) {
         sectionPlayer1.classList.add("player--winner");
+        addClass();
         removeElement(diceimg);
       } else {
         sectionPlayer1.classList.toggle("player--active");
@@ -131,11 +145,14 @@ btnHold.addEventListener("click", function () {
         Number(scorePlayer2.textContent) + Number(currentPlayer2.textContent);
       currentPlayer2.textContent = 0;
       if (Number(scorePlayer2.textContent) >= scoreWin) {
-        sectionPlayer2.classList.add("player--winner");
+        // sectionPlayer2.classList.add("player--winner");
+        addClass(sectionPlayer2, "player--winner");
         removeElement(diceimg);
       } else {
-        sectionPlayer2.classList.remove("player--active");
-        sectionPlayer1.classList.add("player--active");
+        // sectionPlayer2.classList.remove("player--active");
+        removeClass(sectionPlayer2, "player--active");
+        // sectionPlayer1.classList.add("player--active");
+        addClass(sectionPlayer1, "player--active");
         scoreCurrent = 0;
       }
     }
@@ -149,9 +166,14 @@ btnNew.addEventListener("click", function () {
   scorePlayer2.textContent = 0;
   currentPlayer1.textContent = 0;
   currentPlayer2.textContent = 0;
-  sectionPlayer1.classList.remove("player--winner");
-  sectionPlayer2.classList.remove("player--winner");
-  sectionPlayer1.classList.add("player--active");
-  sectionPlayer2.classList.remove("player--active");
+  // sectionPlayer1.classList.remove("player--winner");
+  removeClass(sectionPlayer1, "player--winner");
+  // sectionPlayer2.classList.remove("player--winner");
+  removeClass(sectionPlayer2, "player--winner");
+  // sectionPlayer1.classList.add("player--active");
+  addClass(sectionPlayer1, "player--active");
+  // sectionPlayer2.classList.remove("player--active");
+  removeClass(sectionPlayer2, "player--active");
+  removeFunction(sectionPlayer2, "player--active");
   removeElement(diceimg);
 });
