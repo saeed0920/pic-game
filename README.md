@@ -1,7 +1,7 @@
-# pic-game
-third project in js 
+# Pic-game
+Third project in js 
 
-hi!
+Hi!
 
 Start my third project js in cours Udemy 
 
